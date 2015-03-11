@@ -93,7 +93,7 @@
     while( head != NULL ){
     char aux =  head->theChar; //Get character from header (Last element)
     printf("%c",aux);
-    // free( head ); // Does not make sense free header here.
+    // free( head ); // It's optional.
     node = head->next; // Move to th next one.
     head = node; //Update head to move foward.
     //   scan++;  //Useless
