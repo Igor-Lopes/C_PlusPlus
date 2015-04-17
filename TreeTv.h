@@ -1,4 +1,3 @@
-
 /*      Igor Lopes              CS_121
         April 13, 2015          Lab#11
 */
@@ -19,6 +18,7 @@ class TreeTv
         public:
 
         string* movie_titles;
+	string* movie_actors;
         bool is_next_title;
         int total_lines;
         int total_titles;
@@ -64,9 +64,8 @@ class TreeTv
                  }
 
                 SET_TOTAL_TITLES();
-                SET_TITLES();
-                //GET_ACTORS_TITLES();
-//              BST tree (tmp_data, 100);
+              //  SET_TITLES();
+                GET_ACTORS_TITLES();
   }
     public: void SET_TOTAL_TITLES()
         {
@@ -94,7 +93,7 @@ class TreeTv
         }
     public: void SET_TITLES()
         {
-                string *titles = new string [total_titles];
+                movie_titles = new string [total_titles];
                 int lastindex = 0;
                 ofstream File;
                 File.open ("titles.txt");
@@ -114,36 +113,39 @@ class TreeTv
                         {
                                 //string fitered = FILTER_TITLE(tmp_data[i]);
                                 //File << fitered <<endl;
-                                titles[lastindex] = tmp_data[i];
+                                movie_titles[lastindex] = tmp_data[i];
                                 lastindex++;
                                 isTitle = false;
                         }
 
                 }
-        BST tree (titles, total_titles);
+    //    BST tree (movie_titles, total_titles);
 
 
 
         }
    public: void GET_ACTORS_TITLES()
         {
+		movie_titles = new string [total_titles];
+		movie_actors = new string [total_titles];
+		int last_index = 0;
+		int last_index_actors = 0;
                 int count = 0 ;
                 ofstream File;
                 File.open ("titles.txt");
                 bool isTitle = false;
                 string prev;
                 string curr = tmp_data[0];
-
                 string curr_title = " ";
                 string curr_actors = " ";
+		
                 for(int i = 1; i < total_lines; i++)
                 {
                         prev = curr;
                         curr = tmp_data[i];
                         if(curr == "VOID")
-                        {
-                                File << curr_actors <<endl;
-                                File << curr <<endl;
+                        {	
+                         //  File << curr <<endl;
                         }
                         if(prev == "VOID" && curr != "VOID" && isTitle == false)
                         {
@@ -154,24 +156,31 @@ class TreeTv
                         {
                                 count++;
                         }
-  if(isTitle == false && count == 3 &&  curr != "VOID")
+  			if(isTitle == false && count == 3 &&  curr != "VOID")
                         {
                                 string fitered = tmp_data[i];
                                 curr_actors = curr_actors + "," + tmp_data[i];
+				//movie_actors[last_index] = curr_actors;
                         }
                         if(isTitle == true)
-                        {
-                                curr_title = tmp_data[i];
-                                curr_actors =  "";
-                                //string fitered = FILTER_TITLE(tmp_data[i]);
-                                string fitered = tmp_data[i];
-                                File << fitered <<endl;
-                                isTitle = false;
-                                count = 0;
+                        {				
+				 movie_titles[last_index] = tmp_data[i];
+				 last_index++;	
+                               	 curr_title = tmp_data[i];
+			        
+				 if( curr_actors != " ")
+				 {
+					File << curr_actors <<endl;
+					movie_actors[last_index_actors] = curr_actors; 
+					last_index_actors++;
+				 }
+				 
+				 curr_actors =  "";
+				// File << curr_title <<endl;
+                                 isTitle = false;
+                                 count = 0;
                         }
-
-                }
-
-
+                }	
+   		BST tree (movie_titles,movie_actors, total_titles);
         }
 };
